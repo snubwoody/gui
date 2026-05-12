@@ -2,6 +2,7 @@
 using Silk.NET.Maths;
 using Silk.NET.OpenGL;
 using Silk.NET.Windowing;
+using SkiaSharp;
 
 namespace Agape;
 
@@ -9,9 +10,11 @@ class App
 {
     private readonly IWindow _window;
     private static GL _gl;
+    private GRContext _grContext;
+    private SKSurface _surface;
 
     /// <summary>
-    /// Instantiates a new app.
+    /// Instantiate a new app.
     /// </summary>
     public App()
     {
@@ -29,12 +32,25 @@ class App
     private void OnLoad()
     {
         _gl = _window.CreateOpenGL();
-        _gl.ClearColor(Color.White);
+
+        var glInterface = GRGlInterface.Create(name =>
+            _window.GLContext!.TryGetProcAddress(name, out var addr) ? addr : 0
+        );
+        
+        _grContext = GRContext.CreateGl(glInterface);
+
+        var framebufferInfo = new GRGlFramebufferInfo(0,0x8058);
+        var target = new GRBackendRenderTarget(100, 100,0,8,framebufferInfo);
+        
+        _surface = SKSurface.Create(_grContext,target,GRSurfaceOrigin.BottomLeft,SKColorType.Rgba8888);
     }
 
     private void OnRender(double delta)
     {
-        _gl.Clear(ClearBufferMask.ColorBufferBit);
+        var canvas = _surface.Canvas;
+        canvas.Clear(SKColors.White);
+        
+        _grContext.Flush();
     }
 
     public void Run()
