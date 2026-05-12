@@ -27,28 +27,53 @@ class App
         _window = Window.Create(windowOptions);
         _window.Load += OnLoad;
         _window.Render += OnRender;
+        _window.Resize += OnResize;
+    }
+
+    private SKSurface CreateSurface(int width, int height)
+    {
+        // Get the frame buffer address
+        _gl.GetInteger(GLEnum.FramebufferBinding,out var framebuffer);
+
+        var framebufferInfo = new GRGlFramebufferInfo((uint)framebuffer,SKColorType.Rgba8888.ToGlSizedFormat());
+        var target = new GRBackendRenderTarget(width, height,0,8,framebufferInfo);
+        
+        return SKSurface.Create(_grContext,target,GRSurfaceOrigin.BottomLeft,SKColorType.Rgba8888);   
     }
 
     private void OnLoad()
     {
         _gl = _window.CreateOpenGL();
 
+        var width = _window.Size.X;
+        var height  = _window.Size.Y;
         var glInterface = GRGlInterface.Create(name =>
-            _window.GLContext!.TryGetProcAddress(name, out var addr) ? addr : 0
+            _gl.Context.TryGetProcAddress(name, out var addr) 
+                ? addr : 
+                IntPtr.Zero // Return null pointer for missing functions
         );
         
         _grContext = GRContext.CreateGl(glInterface);
 
-        var framebufferInfo = new GRGlFramebufferInfo(0,0x8058);
-        var target = new GRBackendRenderTarget(100, 100,0,8,framebufferInfo);
-        
-        _surface = SKSurface.Create(_grContext,target,GRSurfaceOrigin.BottomLeft,SKColorType.Rgba8888);
+        _surface = CreateSurface(width, height);
+    }
+
+    private void OnResize(Vector2D<int> size)
+    {
+        _surface = CreateSurface(size.X, size.Y);
     }
 
     private void OnRender(double delta)
     {
         var canvas = _surface.Canvas;
         canvas.Clear(SKColors.White);
+
+        var rect = SKRect.Create(20, 20, 40, 40);
+        var paint = new SKPaint
+        {
+            Color = SKColors.Blue,
+        };
+        canvas.DrawRect(rect,paint);
         
         _grContext.Flush();
     }
