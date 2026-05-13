@@ -18,6 +18,23 @@ public class SingleChildLayoutTests
     }
 
     [Fact]
+    public void MinWidthSmallerThanContentWidth()
+    {
+        var rect = new Rect
+        {
+            IntrinsicWidth = new BoxSizing.Fixed(500),
+        };
+
+        var widget = new Container(rect)
+        {
+            Constraints = new BoxConstraints(minWidth: 200),
+        };
+
+        widget.SolveMinConstraints();
+        Assert.Equal(500, widget.Constraints.MinimumWidth);
+    }
+
+    [Fact]
     public void FixedMinConstraints()
     {
         var rect = new Rect();

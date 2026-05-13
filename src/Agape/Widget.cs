@@ -3,6 +3,36 @@ using SkiaSharp;
 
 namespace Agape;
 
+/// <summary>
+/// The space between a widget's boundary and it's content.
+/// </summary>
+public record struct Padding
+{
+    public double Left { get; set; }
+    public double Right { get; set; }
+    public double Top { get; set; }
+    public double Bottom { get; set; }
+
+    public Padding(double left, double right, double top, double bottom)
+    {
+        Left = left;
+        Right = right;
+        Top = top;
+        Bottom = bottom;
+    }
+    
+    /// <summary>
+    /// Creates a <see cref="Padding"/> where all sides have the same value.
+    /// </summary>
+    public static Padding All(double value) => new (value,value,value,value);
+
+    public static Padding Symmetric(double horizontal, double vertical) =>
+        new (left: horizontal, right: horizontal, top: vertical, bottom: vertical);
+
+    public double SumHorizontal() => Left + Right;
+    public double SumVertical() => Top + Bottom;
+}
+
 public abstract record BoxSizing
 {
     private BoxSizing() { }
@@ -45,13 +75,24 @@ public record BoxConstraints
     }
 }
 
+// TODO: add render widget
 public abstract class Widget
 {
     public BoxSizing IntrinsicWidth { get; init; } = new BoxSizing.Shrink();
     public BoxSizing IntrinsicHeight { get; init; } = new BoxSizing.Shrink();
     public BoxConstraints Constraints { get; init; } = new();
+    public Padding Padding { get; init; } = new();
 
+    /// <summary>
+    /// Solves the minimum constraints. The children widgets tell the parent the minimum space they need.
+    /// </summary>
     public abstract void SolveMinConstraints();
+    
+    /// <summary>
+    /// Solves the maximum constraints. The parent widget tells the children the maximum space available to
+    /// them.
+    /// </summary>
+    public abstract void SolveMaxConstraints();
 
     /// <summary>
     /// Draw the widget to the skia canvas.
@@ -76,6 +117,12 @@ public abstract class EmptyWidget : Widget
         {
             Constraints.MinimumHeight = height.Value;
         }
+    }
+    
+    
+    public override void SolveMaxConstraints()
+    {
+        // No children to solve for    
     }
 }
 
@@ -102,7 +149,8 @@ public abstract class SingleChildWidget : Widget
             }
             else
             {
-                Constraints.MinimumWidth = _child.Constraints.MinimumWidth;
+                var minWidth = Math.Max(_child.Constraints.MinimumWidth ?? 0,Constraints.MinimumWidth ?? 0);
+                Constraints.MinimumWidth = minWidth + Padding.SumHorizontal();
             }
         }
 
@@ -114,9 +162,45 @@ public abstract class SingleChildWidget : Widget
             }
             else
             {
-                Constraints.MinimumHeight = _child.Constraints.MinimumHeight;
+                var minHeight = Math.Max(_child.Constraints.MinimumHeight ?? 0,Constraints.MinimumHeight ?? 0);
+                Constraints.MinimumHeight = minHeight + Padding.SumVertical();
             }
         }
+    }
+
+    public override void SolveMaxConstraints()
+    {
+        var availableWidth = Constraints.MaximumWidth ?? 0;
+        var availableHeight = Constraints.MaximumHeight ?? 0;
+        
+        availableWidth -= Padding.SumHorizontal();
+        availableHeight -= Padding.SumVertical();
+
+        // TODO: should layout set max constraints when shrink?
+        if (_child.IntrinsicWidth is BoxSizing.Fill)
+        {
+            if (!_child.Constraints.MaximumWidth.HasValue)
+            {
+                _child.Constraints.MaximumWidth = availableWidth;
+            }
+            
+        } else if (_child.IntrinsicWidth is BoxSizing.Fixed fixedWidth)
+        {
+            _child.Constraints.MaximumWidth = fixedWidth.Value;
+        }
+
+        if (_child.IntrinsicHeight is BoxSizing.Fill)
+        {
+            if (!_child.Constraints.MaximumHeight.HasValue)
+            {
+                _child.Constraints.MaximumHeight = availableHeight;
+            }
+            
+        } else if (_child.IntrinsicHeight is BoxSizing.Fixed fixedHeight)
+        {
+            _child.Constraints.MaximumHeight = fixedHeight.Value;
+        }
+
     }
 }
 
