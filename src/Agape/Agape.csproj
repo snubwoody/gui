@@ -12,4 +12,18 @@
     <PackageReference Include="SkiaSharp" Version="3.119.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Include="lib/libcascada.so" Condition="$([MSBuild]::IsOSPlatform('Linux'))">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>libcascada.so</Link>
+    </Content>
+    <Content Include="lib/cascada.dll" Condition="$([MSBuild]::IsOSPlatform('Windows'))">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>cascada.dll</Link>
+    </Content>
+    <Content Include="lib/libcascada.dylib" Condition="$([MSBuild]::IsOSPlatform('OSX'))">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>libcascada.dylib</Link>
+    </Content>
+  </ItemGroup>
 </Project>

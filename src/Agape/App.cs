@@ -83,6 +83,8 @@ class App
         
         widget.Draw(canvas);
         
+        LayoutSolver.SolveLayout(new Vector2(500,500));
+        
         _grContext.Flush();
     }
 
