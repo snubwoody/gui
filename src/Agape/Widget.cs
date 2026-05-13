@@ -93,28 +93,6 @@ public abstract class SingleChildWidget : Widget
     
     public override void SolveMinConstraints()
     {
-        // The minimum width and height take precedence if set
-        if (IntrinsicWidth is BoxSizing.Fixed width && !Constraints.MinimumWidth.HasValue)
-        {
-            Constraints.MinimumWidth = width.Value;
-        }
-
-        if (IntrinsicHeight is BoxSizing.Fixed height && !Constraints.MinimumHeight.HasValue)
-        {
-            Constraints.MinimumHeight = height.Value;
-        }
-    }
-}
-
-public class Container : SingleChildWidget
-{
-    public Vector2 Size { get; set; }
-    public SKColor Color { get; set; }
-
-    public Container(Widget child) : base(child){}
-
-    public override void SolveMinConstraints()
-    {
         _child.SolveMinConstraints();
         if (!Constraints.MinimumWidth.HasValue)
         {
@@ -140,6 +118,14 @@ public class Container : SingleChildWidget
             }
         }
     }
+}
+
+public class Container : SingleChildWidget
+{
+    public Vector2 Size { get; set; }
+    public SKColor Color { get; set; }
+
+    public Container(Widget child) : base(child){}
 
     public override void Draw(SKCanvas canvas)
     {
