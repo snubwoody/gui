@@ -16,7 +16,7 @@
 
   <ItemGroup>
     <Using Include="Xunit" />
-    <ProjectReference Include="../../Agape/Agape.csproj" />
+    <ProjectReference Include="../../src/Agape/Agape.csproj" />
   </ItemGroup>
 
 </Project>
