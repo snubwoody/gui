@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Numerics;
 using Silk.NET.Maths;
 using Silk.NET.OpenGL;
 using Silk.NET.Windowing;
@@ -30,6 +31,12 @@ class App
         _window.Resize += OnResize;
     }
 
+    /// <summary>
+    /// Create a skia surface.
+    /// </summary>
+    /// <param name="width">The width of the surface.</param>
+    /// <param name="height">The height of the surface.</param>
+    /// <returns></returns>
     private SKSurface CreateSurface(int width, int height)
     {
         // Get the frame buffer address
@@ -68,12 +75,13 @@ class App
         var canvas = _surface.Canvas;
         canvas.Clear(SKColors.White);
 
-        var rect = SKRect.Create(20, 20, 40, 40);
-        var paint = new SKPaint
+        var widget = new Rect
         {
-            Color = SKColors.Blue,
+            Size = new Vector2(50,50),
+            Color = SKColors.Blue
         };
-        canvas.DrawRect(rect,paint);
+        
+        widget.Draw(canvas);
         
         _grContext.Flush();
     }
