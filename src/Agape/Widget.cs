@@ -5,6 +5,11 @@ namespace Agape;
 
 public abstract class Widget
 {
+    public void SolveMinConstraints()
+    {
+        
+    }
+    
     /// <summary>
     /// Draw the widget to the skia canvas.
     /// </summary>
