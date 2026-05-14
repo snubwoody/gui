@@ -1,5 +1,4 @@
-﻿using System.Drawing;
-using System.Numerics;
+﻿using System.Numerics;
 using Silk.NET.Maths;
 using Silk.NET.OpenGL;
 using Silk.NET.Windowing;
@@ -12,11 +11,13 @@ class App {
     private static GL _gl;
     private GRContext _grContext;
     private SKSurface _surface;
+    private Widget widget;
 
     /// <summary>
     /// Instantiate a new app.
     /// </summary>
-    public App() {
+    public App(Widget widget) {
+        this.widget = widget;
         var windowOptions = WindowOptions.Default with {
             Title = "Agape",
             Size = new Vector2D<int>(500, 500),
@@ -58,20 +59,25 @@ class App {
         _grContext = GRContext.CreateGl(glInterface);
 
         _surface = CreateSurface(width, height);
+        SolveLayout();
     }
 
     private void OnResize(Vector2D<int> size) {
         _surface = CreateSurface(size.X, size.Y);
+        SolveLayout();
+    }
+
+    private void SolveLayout() {
+        // It's important that the min constraints are solved before the max constraints
+        // because the min constraints are used in calculating max constraints.
+        widget.SolveMinConstraints();
+        widget.SolveMaxConstraints();
+        widget.UpdateSize();
     }
 
     private void OnRender(double delta) {
         var canvas = _surface.Canvas;
         canvas.Clear(SKColors.White);
-
-        var widget = new Rect {
-            Size = new Vector2(50, 50),
-            Color = SKColors.Blue
-        };
 
         widget.Draw(canvas);
 

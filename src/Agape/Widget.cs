@@ -27,7 +27,14 @@ public record struct Padding {
     public static Padding Symmetric(double horizontal, double vertical) =>
         new(left: horizontal, right: horizontal, top: vertical, bottom: vertical);
 
+    /// <summary>
+    /// Returns the sum of the left and right padding.
+    /// </summary>
     public double SumHorizontal() => Left + Right;
+
+    /// <summary>
+    /// Returns the sum of the top and bottom padding.
+    /// </summary>
     public double SumVertical() => Top + Bottom;
 }
 
@@ -213,12 +220,11 @@ public class Container : SingleChildWidget {
 }
 
 public class Rect : EmptyWidget {
-    public Vector2 Size { get; set; }
     public SKColor Color { get; set; }
 
     public override void Draw(SKCanvas canvas) {
 
-        var rect = SKRect.Create(80, 80, Size.X, Size.Y);
+        var rect = SKRect.Create(0, 0, (float)Width, (float)Height);
         var paint = new SKPaint {
             Color = Color
         };
