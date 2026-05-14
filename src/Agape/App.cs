@@ -7,8 +7,7 @@ using SkiaSharp;
 
 namespace Agape;
 
-class App
-{
+class App {
     private readonly IWindow _window;
     private static GL _gl;
     private GRContext _grContext;
@@ -17,10 +16,8 @@ class App
     /// <summary>
     /// Instantiate a new app.
     /// </summary>
-    public App()
-    {
-        var windowOptions = WindowOptions.Default with
-        {
+    public App() {
+        var windowOptions = WindowOptions.Default with {
             Title = "Agape",
             Size = new Vector2D<int>(500, 500),
             API = new GraphicsAPI(ContextAPI.OpenGL, new APIVersion(3, 3))
@@ -37,8 +34,7 @@ class App
     /// <param name="width">The width of the surface.</param>
     /// <param name="height">The height of the surface.</param>
     /// <returns></returns>
-    private SKSurface CreateSurface(int width, int height)
-    {
+    private SKSurface CreateSurface(int width, int height) {
         // Get the frame buffer address
         _gl.GetInteger(GLEnum.FramebufferBinding, out var framebuffer);
 
@@ -48,8 +44,7 @@ class App
         return SKSurface.Create(_grContext, target, GRSurfaceOrigin.BottomLeft, SKColorType.Rgba8888);
     }
 
-    private void OnLoad()
-    {
+    private void OnLoad() {
         _gl = _window.CreateOpenGL();
 
         var width = _window.Size.X;
@@ -65,18 +60,15 @@ class App
         _surface = CreateSurface(width, height);
     }
 
-    private void OnResize(Vector2D<int> size)
-    {
+    private void OnResize(Vector2D<int> size) {
         _surface = CreateSurface(size.X, size.Y);
     }
 
-    private void OnRender(double delta)
-    {
+    private void OnRender(double delta) {
         var canvas = _surface.Canvas;
         canvas.Clear(SKColors.White);
 
-        var widget = new Rect
-        {
+        var widget = new Rect {
             Size = new Vector2(50, 50),
             Color = SKColors.Blue
         };
@@ -86,8 +78,7 @@ class App
         _grContext.Flush();
     }
 
-    public void Run()
-    {
+    public void Run() {
         _window.Run();
     }
 }
