@@ -72,6 +72,8 @@ public record BoxConstraints {
 
 // TODO: add render widget
 public abstract class Widget {
+    public double Width { get; set; }
+    public double Height { get; set; }
     public BoxSizing IntrinsicWidth { get; init; } = new BoxSizing.Shrink();
     public BoxSizing IntrinsicHeight { get; init; } = new BoxSizing.Shrink();
     public BoxConstraints Constraints { get; init; } = new();
@@ -87,6 +89,25 @@ public abstract class Widget {
     /// them.
     /// </summary>
     public abstract void SolveMaxConstraints();
+
+    /// <summary>
+    /// Sets the widget's size based on the constraints and box sizing.
+    /// </summary>
+    public void UpdateSize() {
+        Width = IntrinsicWidth switch {
+            BoxSizing.Fixed fixedWidth => fixedWidth.Value,
+            BoxSizing.Fill => Constraints.MaximumWidth ?? 0,
+            BoxSizing.Shrink => Constraints.MinimumHeight ?? 0,
+            _ => throw new Exception("Invalid intrinsic width")
+        };
+
+        Height = IntrinsicHeight switch {
+            BoxSizing.Fixed fixedHeight => fixedHeight.Value,
+            BoxSizing.Fill => Constraints.MaximumHeight ?? 0,
+            BoxSizing.Shrink => Constraints.MinimumHeight ?? 0,
+            _ => throw new Exception("Invalid intrinsic height")
+        };
+    }
 
     /// <summary>
     /// Draw the widget to the skia canvas.
@@ -176,14 +197,13 @@ public abstract class SingleChildWidget : Widget {
 }
 
 public class Container : SingleChildWidget {
-    public Vector2 Size { get; set; }
     public SKColor Color { get; set; }
 
     public Container(Widget child) : base(child) { }
 
     public override void Draw(SKCanvas canvas) {
 
-        var rect = SKRect.Create(80, 80, Size.X, Size.Y);
+        var rect = SKRect.Create(80, 80, (float)Width, (float)Height);
         var paint = new SKPaint {
             Color = Color,
         };
