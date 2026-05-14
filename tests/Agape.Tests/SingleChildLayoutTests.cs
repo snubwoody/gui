@@ -1,0 +1,72 @@
+﻿namespace Agape.Tests;
+
+public class SingleChildLayoutTests
+{
+    [Fact]
+    public void MinWidthAndHeight()
+    {
+        var rect = new Rect();
+
+        var widget = new Container(rect)
+        {
+            Constraints = new BoxConstraints(minHeight: 100, minWidth: 200),
+        };
+
+        widget.SolveMinConstraints();
+        Assert.Equal(200, widget.Constraints.MinimumWidth);
+        Assert.Equal(100, widget.Constraints.MinimumHeight);
+    }
+
+    [Fact]
+    public void MinWidthSmallerThanContentWidth()
+    {
+        var rect = new Rect
+        {
+            IntrinsicWidth = new BoxSizing.Fixed(500),
+        };
+
+        var widget = new Container(rect)
+        {
+            Constraints = new BoxConstraints(minWidth: 200),
+        };
+
+        widget.SolveMinConstraints();
+        Assert.Equal(500, widget.Constraints.MinimumWidth);
+    }
+
+    [Fact]
+    public void FixedMinConstraints()
+    {
+        var rect = new Rect();
+
+        var widget = new Container(rect)
+        {
+            IntrinsicWidth = new BoxSizing.Fixed(200),
+            IntrinsicHeight = new BoxSizing.Fixed(150),
+        };
+
+        widget.SolveMinConstraints();
+        Assert.Equal(200, widget.Constraints.MinimumWidth);
+        Assert.Equal(150, widget.Constraints.MinimumHeight);
+    }
+
+    [Fact]
+    public void ShrinkMinConstraints()
+    {
+        var rect = new Rect
+        {
+            IntrinsicWidth = new BoxSizing.Fixed(20.5),
+            IntrinsicHeight = new BoxSizing.Fixed(10),
+        };
+
+        var widget = new Container(rect)
+        {
+            IntrinsicWidth = new BoxSizing.Shrink(),
+            IntrinsicHeight = new BoxSizing.Shrink()
+        };
+
+        widget.SolveMinConstraints();
+        Assert.Equal(20.5, widget.Constraints.MinimumWidth);
+        Assert.Equal(10, widget.Constraints.MinimumHeight);
+    }
+}

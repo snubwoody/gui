@@ -22,8 +22,8 @@ class App
         var windowOptions = WindowOptions.Default with
         {
             Title = "Agape",
-            Size = new Vector2D<int>(500,500),	
-            API = new GraphicsAPI(ContextAPI.OpenGL,new APIVersion(3,3))
+            Size = new Vector2D<int>(500, 500),
+            API = new GraphicsAPI(ContextAPI.OpenGL, new APIVersion(3, 3))
         };
         _window = Window.Create(windowOptions);
         _window.Load += OnLoad;
@@ -40,12 +40,12 @@ class App
     private SKSurface CreateSurface(int width, int height)
     {
         // Get the frame buffer address
-        _gl.GetInteger(GLEnum.FramebufferBinding,out var framebuffer);
+        _gl.GetInteger(GLEnum.FramebufferBinding, out var framebuffer);
 
-        var framebufferInfo = new GRGlFramebufferInfo((uint)framebuffer,SKColorType.Rgba8888.ToGlSizedFormat());
-        var target = new GRBackendRenderTarget(width, height,0,8,framebufferInfo);
-        
-        return SKSurface.Create(_grContext,target,GRSurfaceOrigin.BottomLeft,SKColorType.Rgba8888);   
+        var framebufferInfo = new GRGlFramebufferInfo((uint)framebuffer, SKColorType.Rgba8888.ToGlSizedFormat());
+        var target = new GRBackendRenderTarget(width, height, 0, 8, framebufferInfo);
+
+        return SKSurface.Create(_grContext, target, GRSurfaceOrigin.BottomLeft, SKColorType.Rgba8888);
     }
 
     private void OnLoad()
@@ -53,13 +53,13 @@ class App
         _gl = _window.CreateOpenGL();
 
         var width = _window.Size.X;
-        var height  = _window.Size.Y;
+        var height = _window.Size.Y;
         var glInterface = GRGlInterface.Create(name =>
-            _gl.Context.TryGetProcAddress(name, out var addr) 
-                ? addr : 
+            _gl.Context.TryGetProcAddress(name, out var addr)
+                ? addr :
                 IntPtr.Zero // Return null pointer for missing functions
         );
-        
+
         _grContext = GRContext.CreateGl(glInterface);
 
         _surface = CreateSurface(width, height);
@@ -77,12 +77,12 @@ class App
 
         var widget = new Rect
         {
-            Size = new Vector2(50,50),
+            Size = new Vector2(50, 50),
             Color = SKColors.Blue
         };
-        
+
         widget.Draw(canvas);
-        
+
         _grContext.Flush();
     }
 
