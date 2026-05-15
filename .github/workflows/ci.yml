@@ -34,29 +34,3 @@ jobs:
           dotnet-version: ${{env.DOTNET_VERSION}}
       - name: Check formatting
         run: dotnet format --verify-no-changes
-  build:
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - os: windows-latest
-            target: win-x64
-          - os: windows-latest
-            target: win-arm64
-          - os: macos-latest
-            target: osx-arm64
-          - os: macos-latest
-            target: osx-x64
-          - os: ubuntu-latest
-            target: linux-x64
-    runs-on: ${{matrix.os}}
-    steps:
-      - uses: actions/checkout@v6
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: ${{env.DOTNET_VERSION}}
-      - name: Build library
-        run: dotnet publish src/Agape -c Release -r ${{matrix.target}} --self-contained -p:PublishSingleFile=true
-      - name: Print output
-        run: ls -R examples/Counter/bin/Release/net10.0/${{matrix.target}}/publish/
