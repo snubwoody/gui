@@ -1,6 +1,6 @@
 ﻿namespace Agape;
 
-public class Text: Widget {
+public class Text : Widget {
     public string Value { get; init; }
     /// <summary>
     /// The font size of the text.
@@ -15,7 +15,7 @@ public class Text: Widget {
         return new TextRenderObject(Value) {
             Value = Value,
             Size = Size,
-            IntrinsicWidth =  IntrinsicWidth,
+            IntrinsicWidth = IntrinsicWidth,
             IntrinsicHeight = IntrinsicHeight,
             Constraints = Constraints,
         };

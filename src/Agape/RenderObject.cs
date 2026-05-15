@@ -151,7 +151,7 @@ public class SingleChildRenderObject : RenderObject {
 }
 
 
-public class TextRenderObject: RenderObject {
+public class TextRenderObject : RenderObject {
     public string Value { get; init; }
     /// <summary>
     /// The font size of the text.
@@ -166,16 +166,16 @@ public class TextRenderObject: RenderObject {
     /// Measure the bounds of the text.
     /// </summary>
     public Vector2 MeasureText() {
-        Font().MeasureText(Value, out var bounds,Paint());
+        Font().MeasureText(Value, out var bounds, Paint());
         return new Vector2(bounds.Width, bounds.Height);
     }
-    
+
     private SKFont Font() {
         return new SKFont {
             Size = (float)Size
         };
     }
-    
+
     /// <summary>
     /// Create a paint for the text.
     /// </summary>
@@ -185,7 +185,7 @@ public class TextRenderObject: RenderObject {
             IsAntialias = true
         };
     }
-    
+
     public override void SolveMinConstraints() {
         var bounds = MeasureText();
         // The minimum width and height take precedence if set
@@ -202,16 +202,16 @@ public class TextRenderObject: RenderObject {
         }
     }
 
-    
-    public override void SolveMaxConstraints() {}
-    
-    
+
+    public override void SolveMaxConstraints() { }
+
+
     public override void Draw(SKCanvas canvas) {
         var paint = Paint();
         var font = Font();
         // var position = Position;
         // var y = Position.Y + Size.Y;
-        
+
         // Draw at the baseline
         var y = 0 + Height;
         canvas.DrawText(Value, 0, (float)y, font, paint);

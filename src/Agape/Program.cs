@@ -9,7 +9,7 @@ static class Program {
             IntrinsicHeight = new BoxSizing.Fixed(50),
             Color = SKColors.Blue
         };
-        
+
         var text = new Text("Hello World");
 
         var app = new App(text);
