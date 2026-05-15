@@ -10,7 +10,9 @@ static class Program {
             Color = SKColors.Blue
         };
 
-        var app = new App(widget);
+        var text = new Text("Hello World");
+
+        var app = new App(text);
         app.Run();
     }
 }
