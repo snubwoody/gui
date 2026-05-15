@@ -29,6 +29,20 @@ public class SingleChildLayoutTests {
     }
 
     [Fact]
+    public void MinHeightSmallerThanContentHeight() {
+        var rect = new EmptyRenderObject {
+            IntrinsicHeight = new BoxSizing.Fixed(500),
+        };
+
+        var widget = new SingleChildRenderObject(rect) {
+            Constraints = new BoxConstraints(minHeight: 200),
+        };
+
+        widget.SolveMinConstraints();
+        Assert.Equal(500, widget.Constraints.MinimumHeight);
+    }
+
+    [Fact]
     public void FixedMinConstraints() {
         var rect = new EmptyRenderObject();
 

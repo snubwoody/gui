@@ -1,0 +1,36 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+concurrency:
+  group: ${{github.ref}}-${{github.action}}
+  cancel-in-progress: true
+env:
+  DOTNET_VERSION: 10.0
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ["windows-latest","ubuntu-latest","macos-latest"]
+    runs-on: ${{matrix.os}}
+    steps:
+      - uses: actions/checkout@v6
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{env.DOTNET_VERSION}}
+      - name: Run tests
+        run: dotnet test --logger "console;verbosity=detailed"
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{env.DOTNET_VERSION}}
+      - name: Check formatting
+        run: dotnet format --verify-no-changes
