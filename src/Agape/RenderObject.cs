@@ -93,22 +93,19 @@ public class SingleChildRenderObject : RenderObject {
 
     public override void SolveMinConstraints() {
         _child.SolveMinConstraints();
-        if (!Constraints.MinimumWidth.HasValue) {
-            if (IntrinsicWidth is BoxSizing.Fixed width) {
-                Constraints.MinimumWidth = width.Value;
-            } else {
-                var minWidth = Math.Max(_child.Constraints.MinimumWidth ?? 0, Constraints.MinimumWidth ?? 0);
-                Constraints.MinimumWidth = minWidth + Padding.SumHorizontal();
-            }
+        // TODO get the max or use null expr
+        if (IntrinsicWidth is BoxSizing.Fixed width) {
+            Constraints.MinimumWidth = width.Value;
+        } else {
+            var minWidth = Math.Max(_child.Constraints.MinimumWidth ?? 0, Constraints.MinimumWidth ?? 0);
+            Constraints.MinimumWidth = minWidth + Padding.SumHorizontal();
         }
 
-        if (!Constraints.MinimumHeight.HasValue) {
-            if (IntrinsicHeight is BoxSizing.Fixed height) {
-                Constraints.MinimumHeight = height.Value;
-            } else {
-                var minHeight = Math.Max(_child.Constraints.MinimumHeight ?? 0, Constraints.MinimumHeight ?? 0);
-                Constraints.MinimumHeight = minHeight + Padding.SumVertical();
-            }
+        if (IntrinsicHeight is BoxSizing.Fixed height) {
+            Constraints.MinimumHeight = height.Value;
+        } else {
+            var minHeight = Math.Max(_child.Constraints.MinimumHeight ?? 0, Constraints.MinimumHeight ?? 0);
+            Constraints.MinimumHeight = minHeight + Padding.SumVertical();
         }
     }
 
