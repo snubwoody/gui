@@ -1,10 +1,6 @@
-﻿using System.Drawing;
-using System.Numerics;
-using SkiaSharp;
+﻿namespace Agape;
 
-namespace Agape;
-
-public class Text {
+public class Text: Widget {
     public string Value { get; init; }
     /// <summary>
     /// The font size of the text.
@@ -15,38 +11,14 @@ public class Text {
         Value = value;
     }
 
-    /// <summary>
-    /// Measure the size of the text.
-    /// </summary>
-    public Vector2 MeasureText() {
-        var bounds = new SKRect();
-        Font().MeasureText(Value, out bounds);
-        return new Vector2(bounds.Width, bounds.Height);
-    }
-    
-    private SKFont Font() {
-        return new SKFont {
-            Size = (float)Size
+    public override RenderObject CreateRenderObject() {
+        return new TextRenderObject(Value) {
+            Value = Value,
+            Size = Size,
+            IntrinsicWidth =  IntrinsicWidth,
+            IntrinsicHeight = IntrinsicHeight,
+            Constraints = Constraints,
         };
-    }
-    
-    /// <summary>
-    /// Create a paint for the text.
-    /// </summary>
-    private SKPaint Paint() {
-        return new SKPaint {
-            Color = SKColors.Black,
-            IsAntialias = true
-        };
-    }
-    
-    public void Draw(SKCanvas canvas) {
-        var paint = Paint();
-        var font = Font();
-        // var position = Position;
-        // Draw at the baseline
-        // var y = Position.Y + Size.Y;
-        canvas.DrawText(Value, 0, 0, font, paint);
     }
 }
 

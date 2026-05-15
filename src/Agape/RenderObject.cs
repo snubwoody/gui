@@ -166,8 +166,7 @@ public class TextRenderObject: RenderObject {
     /// Measure the bounds of the text.
     /// </summary>
     public Vector2 MeasureText() {
-        var bounds = new SKRect();
-        Font().MeasureText(Value, out bounds,Paint());
+        Font().MeasureText(Value, out var bounds,Paint());
         return new Vector2(bounds.Width, bounds.Height);
     }
     
@@ -211,9 +210,11 @@ public class TextRenderObject: RenderObject {
         var paint = Paint();
         var font = Font();
         // var position = Position;
-        // Draw at the baseline
         // var y = Position.Y + Size.Y;
-        canvas.DrawText(Value, 0, 0, font, paint);
+        
+        // Draw at the baseline
+        var y = 0 + Height;
+        canvas.DrawText(Value, 0, (float)y, font, paint);
     }
 }
 
