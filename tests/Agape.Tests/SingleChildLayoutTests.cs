@@ -3,9 +3,9 @@
 public class SingleChildLayoutTests {
     [Fact]
     public void MinWidthAndHeight() {
-        var rect = new Rect();
+        var rect = new EmptyRenderObject();
 
-        var widget = new Container(rect) {
+        var widget = new SingleChildRenderObject(rect) {
             Constraints = new BoxConstraints(minHeight: 100, minWidth: 200),
         };
 
@@ -16,11 +16,11 @@ public class SingleChildLayoutTests {
 
     [Fact]
     public void MinWidthSmallerThanContentWidth() {
-        var rect = new Rect {
+        var rect = new EmptyRenderObject {
             IntrinsicWidth = new BoxSizing.Fixed(500),
         };
 
-        var widget = new Container(rect) {
+        var widget = new SingleChildRenderObject(rect) {
             Constraints = new BoxConstraints(minWidth: 200),
         };
 
@@ -30,9 +30,9 @@ public class SingleChildLayoutTests {
 
     [Fact]
     public void FixedMinConstraints() {
-        var rect = new Rect();
+        var rect = new EmptyRenderObject();
 
-        var widget = new Container(rect) {
+        var widget = new SingleChildRenderObject(rect) {
             IntrinsicWidth = new BoxSizing.Fixed(200),
             IntrinsicHeight = new BoxSizing.Fixed(150),
         };
@@ -44,12 +44,12 @@ public class SingleChildLayoutTests {
 
     [Fact]
     public void ShrinkMinConstraints() {
-        var rect = new Rect {
+        var rect = new EmptyRenderObject {
             IntrinsicWidth = new BoxSizing.Fixed(20.5),
             IntrinsicHeight = new BoxSizing.Fixed(10),
         };
 
-        var widget = new Container(rect) {
+        var widget = new SingleChildRenderObject(rect) {
             IntrinsicWidth = new BoxSizing.Shrink(),
             IntrinsicHeight = new BoxSizing.Shrink()
         };

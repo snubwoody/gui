@@ -12,12 +12,14 @@ class App {
     private GRContext _grContext;
     private SKSurface _surface;
     private Widget widget;
+    private RenderObject renderObject;
 
     /// <summary>
     /// Instantiate a new app.
     /// </summary>
     public App(Widget widget) {
         this.widget = widget;
+        renderObject = widget.CreateRenderObject();
         var windowOptions = WindowOptions.Default with {
             Title = "Agape",
             Size = new Vector2D<int>(500, 500),
@@ -68,18 +70,14 @@ class App {
     }
 
     private void SolveLayout() {
-        // It's important that the min constraints are solved before the max constraints
-        // because the min constraints are used in calculating max constraints.
-        widget.SolveMinConstraints();
-        widget.SolveMaxConstraints();
-        widget.UpdateSize();
+        LayoutSolver.SolveLayout(renderObject, _window.Size.X, _window.Size.Y);
     }
 
     private void OnRender(double delta) {
         var canvas = _surface.Canvas;
         canvas.Clear(SKColors.White);
 
-        widget.Draw(canvas);
+        renderObject.Draw(canvas);
 
         _grContext.Flush();
     }

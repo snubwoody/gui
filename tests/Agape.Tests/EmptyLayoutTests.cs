@@ -1,9 +1,9 @@
 ﻿namespace Agape.Tests;
 
-public class LayoutTests {
+public class EmptyLayoutTests {
     [Fact]
     public void FixedMinConstraints() {
-        var rect = new Rect {
+        var rect = new EmptyRenderObject() {
             IntrinsicWidth = new BoxSizing.Fixed(50),
             IntrinsicHeight = new BoxSizing.Fixed(20),
         };
@@ -15,7 +15,7 @@ public class LayoutTests {
 
     [Fact]
     public void FixedMinConstraintsPrecedence() {
-        var rect = new Rect {
+        var rect = new EmptyRenderObject {
             Constraints = new BoxConstraints(minHeight: 100, minWidth: 200),
             IntrinsicWidth = new BoxSizing.Fixed(50),
             IntrinsicHeight = new BoxSizing.Fixed(20),
@@ -27,8 +27,8 @@ public class LayoutTests {
     }
 
     [Fact]
-    public void EmptyWidgetMinWidthAndHeight() {
-        var rect = new Rect {
+    public void MinWidthAndHeight() {
+        var rect = new EmptyRenderObject() {
             Constraints = new BoxConstraints(minHeight: 100, minWidth: 200),
         };
 
