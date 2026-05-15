@@ -31,7 +31,7 @@ public class SingleChildLayoutTests {
     [Fact]
     public void MinHeightSmallerThanContentHeight() {
         var rect = new EmptyRenderObject {
-            IntrinsicHeight= new BoxSizing.Fixed(500),
+            IntrinsicHeight = new BoxSizing.Fixed(500),
         };
 
         var widget = new SingleChildRenderObject(rect) {
