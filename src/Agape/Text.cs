@@ -4,7 +4,7 @@ using SkiaSharp;
 
 namespace Agape;
 
-public class Text: EmptyWidget {
+public class Text {
     public string Value { get; init; }
     /// <summary>
     /// The font size of the text.
@@ -40,7 +40,7 @@ public class Text: EmptyWidget {
         };
     }
     
-    public override void Draw(SKCanvas canvas) {
+    public void Draw(SKCanvas canvas) {
         var paint = Paint();
         var font = Font();
         // var position = Position;
