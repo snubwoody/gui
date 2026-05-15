@@ -57,6 +57,6 @@ jobs:
         with:
           dotnet-version: ${{env.DOTNET_VERSION}}
       - name: Build library
-        run: dotnet publish examples/Counter -c Release -r ${{matrix.target}} --self-contained -p:PublishSingleFile=true
+        run: dotnet publish src/Agape -c Release -r ${{matrix.target}} --self-contained -p:PublishSingleFile=true
       - name: Print output
         run: ls -R examples/Counter/bin/Release/net10.0/${{matrix.target}}/publish/
