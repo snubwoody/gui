@@ -11,6 +11,12 @@ public static class LayoutSolver {
     }
 }
 
+public enum AxisAlignment {
+    Start,
+    Center,
+    End
+}
+
 /// <summary>
 /// The space between a widget's boundary and it's content.
 /// </summary>

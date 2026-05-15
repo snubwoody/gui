@@ -1,10 +1,14 @@
-﻿using SkiaSharp;
+﻿using System.Numerics;
+using SkiaSharp;
 
 namespace Agape;
 
 public abstract class RenderObject {
-    public double Width { get; set; }
-    public double Height { get; set; }
+    public Vector2 Position { get; protected set; }
+    public AxisAlignment MainAxisAlignment { get; init; } = AxisAlignment.Start;
+    public AxisAlignment CrossAxisAlignment { get; init; } = AxisAlignment.Start;
+    public double Width { get; private set; }
+    public double Height { get; private set; }
 
     public BoxSizing IntrinsicWidth { get; init; } = new BoxSizing.Shrink();
     public BoxSizing IntrinsicHeight { get; init; } = new BoxSizing.Shrink();
@@ -43,7 +47,7 @@ public abstract class RenderObject {
     }
 
     /// <summary>
-    /// Draw the widget to the skia canvas.
+    /// Draw the render object to the skia canvas.
     /// </summary>
     public abstract void Draw(SKCanvas canvas);
 }
