@@ -1,4 +1,6 @@
-﻿using Silk.NET.Maths;
+﻿using System.Numerics;
+using Silk.NET.Input;
+using Silk.NET.Maths;
 using Silk.NET.OpenGL;
 using Silk.NET.Windowing;
 using SkiaSharp;
@@ -60,7 +62,16 @@ class App {
         _grContext = GRContext.CreateGl(glInterface);
 
         _surface = CreateSurface(width, height);
+
+        var input = _window.CreateInput();
+        input.Mice[0].MouseMove += OnMouseMove;
+
         SolveLayout();
+    }
+
+    private void OnMouseMove(IMouse mouse, Vector2 position) {
+        // Console.WriteLine(mouse);
+        // Console.WriteLine(position);
     }
 
     private void OnResize(Vector2D<int> size) {

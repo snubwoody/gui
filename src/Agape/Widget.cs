@@ -12,6 +12,7 @@ public abstract class Widget {
 }
 
 
+
 public class Container : Widget {
     public AxisAlignment MainAxisAlignment { get; set; }
     public AxisAlignment CrossAxisAlignment { get; set; }
@@ -45,6 +46,14 @@ public class Rect : Widget {
             IntrinsicHeight = IntrinsicHeight,
             Constraints = Constraints
         };
+    }
+}
+
+public abstract class CompositeWidget : Widget {
+    protected abstract Widget Build();
+
+    public override RenderObject CreateRenderObject() {
+        return new SingleChildRenderObject(Build().CreateRenderObject());
     }
 }
 

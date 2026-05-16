@@ -14,7 +14,17 @@ public abstract class RenderObject {
     public BoxSizing IntrinsicHeight { get; init; } = new BoxSizing.Shrink();
     public BoxConstraints Constraints { get; init; } = new();
 
-    public Padding Padding { get; set; } = new();
+    public Padding Padding { get; set; }
+
+    /// <summary>
+    /// Returns true if the vector is within the render object's bounds.
+    /// </summary>
+    public bool WithinBounds(Vector2 position) {
+        return position.X >= Position.X
+               && position.X <= Position.X + Width
+               && position.Y >= Position.Y
+               && position.Y <= Position.Y + Height;
+    }
 
     /// <summary>
     /// Solves the minimum constraints. The children widgets tell the parent the minimum space they need.
