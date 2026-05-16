@@ -80,6 +80,7 @@ public class SingleChildRenderObject : RenderObject {
         // x_pos -= self.padding.right;
         var xPos = Position.X + Width;
         xPos -= Padding.Left;
+        xPos -= Child.Width;
         
         Child.Position = Child.Position with {
             X = (float)xPos

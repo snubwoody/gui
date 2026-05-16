@@ -5,6 +5,18 @@ namespace Agape;
 
 public static class LayoutSolver {
     public static void SolveLayout(RenderObject renderObject, double width, double height) {
+        if (renderObject.IntrinsicWidth is BoxSizing.Fixed fixedWidth) {
+            renderObject.Constraints.MaximumWidth = fixedWidth.Value;
+        } else {
+            renderObject.Constraints.MaximumWidth ??= width;
+        }
+
+        if (renderObject.IntrinsicHeight is BoxSizing.Fixed fixedHeight) {
+            renderObject.Constraints.MaximumHeight = fixedHeight.Value;
+        } else {
+            renderObject.Constraints.MaximumHeight ??= height;
+        }
+        
         // It's important that the min constraints are solved before the max constraints
         // because the min constraints are used in calculating max constraints.
         renderObject.SolveMinConstraints();
@@ -58,11 +70,14 @@ public record struct Padding {
 
 public abstract record BoxSizing {
     private BoxSizing() { }
+    
     public sealed record Fixed(double Value) : BoxSizing;
+    
     /// <summary>
     /// Fits it children, i.e. as small as possible.
     /// </summary>
     public sealed record Shrink : BoxSizing;
+    
     /// <summary>
     /// Fills the available width.
     /// </summary>
@@ -74,7 +89,7 @@ public record BoxConstraints {
     /// <summary>
     /// The minimum width a height is allowed to be, takes precedence over all values.  
     /// </summary>
-    public double? MinimumWidth { get; set; } = null;
+    public double? MinimumWidth { get; set; }
     /// <summary>
     /// The minimum height a widget is allowed to be, takes precedence over all values.  
     /// </summary>

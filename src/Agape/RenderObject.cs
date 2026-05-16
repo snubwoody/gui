@@ -7,8 +7,8 @@ public abstract class RenderObject {
     public Vector2 Position { get; set; }
     public AxisAlignment MainAxisAlignment { get; init; } = AxisAlignment.Start;
     public AxisAlignment CrossAxisAlignment { get; init; } = AxisAlignment.Start;
-    public double Width { get; private set; }
-    public double Height { get; private set; }
+    public double Width { get; set; }
+    public double Height { get; set; }
 
     public BoxSizing IntrinsicWidth { get; init; } = new BoxSizing.Shrink();
     public BoxSizing IntrinsicHeight { get; init; } = new BoxSizing.Shrink();
