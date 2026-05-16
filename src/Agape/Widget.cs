@@ -5,9 +5,13 @@ namespace Agape;
 
 public static class LayoutSolver {
     public static void SolveLayout(RenderObject renderObject, double width, double height) {
+        // It's important that the min constraints are solved before the max constraints
+        // because the min constraints are used in calculating max constraints.
         renderObject.SolveMinConstraints();
         renderObject.SolveMaxConstraints();
+        
         renderObject.UpdateSize();
+        renderObject.PositionChildren();
     }
 }
 

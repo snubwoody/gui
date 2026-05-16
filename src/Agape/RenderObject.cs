@@ -26,6 +26,8 @@ public abstract class RenderObject {
     /// them.
     /// </summary>
     public abstract void SolveMaxConstraints();
+    
+    public abstract void PositionChildren();
 
     /// <summary>
     /// Sets the widget's size based on the constraints and box sizing.

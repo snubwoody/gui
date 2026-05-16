@@ -59,6 +59,11 @@ public class SingleChildRenderObject : RenderObject {
 
     }
 
+    public override void PositionChildren() {
+        
+    }
+    
+
     public override void Draw(SKCanvas canvas) {
         var rect = SKRect.Create(0, 0, (float)Width, (float)Height);
         var paint = new SKPaint {

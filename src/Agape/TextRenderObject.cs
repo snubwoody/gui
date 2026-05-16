@@ -57,6 +57,8 @@ public class TextRenderObject : RenderObject {
 
     public override void SolveMaxConstraints() { }
 
+    public override void PositionChildren() { }
+
 
     public override void Draw(SKCanvas canvas) {
         var paint = Paint();
