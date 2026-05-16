@@ -5,10 +5,32 @@ namespace Agape;
 
 public static class LayoutSolver {
     public static void SolveLayout(RenderObject renderObject, double width, double height) {
+        if (renderObject.IntrinsicWidth is BoxSizing.Fixed fixedWidth) {
+            renderObject.Constraints.MaximumWidth = fixedWidth.Value;
+        } else {
+            renderObject.Constraints.MaximumWidth ??= width;
+        }
+
+        if (renderObject.IntrinsicHeight is BoxSizing.Fixed fixedHeight) {
+            renderObject.Constraints.MaximumHeight = fixedHeight.Value;
+        } else {
+            renderObject.Constraints.MaximumHeight ??= height;
+        }
+
+        // It's important that the min constraints are solved before the max constraints
+        // because the min constraints are used in calculating max constraints.
         renderObject.SolveMinConstraints();
         renderObject.SolveMaxConstraints();
+
         renderObject.UpdateSize();
+        renderObject.PositionChildren();
     }
+}
+
+public enum AxisAlignment {
+    Start,
+    Center,
+    End
 }
 
 /// <summary>
@@ -20,7 +42,7 @@ public record struct Padding {
     public double Top { get; set; }
     public double Bottom { get; set; }
 
-    public Padding(double left, double right, double top, double bottom) {
+    public Padding(double left = 0, double right = 0, double top = 0, double bottom = 0) {
         Left = left;
         Right = right;
         Top = top;
@@ -48,11 +70,14 @@ public record struct Padding {
 
 public abstract record BoxSizing {
     private BoxSizing() { }
+
     public sealed record Fixed(double Value) : BoxSizing;
+
     /// <summary>
     /// Fits it children, i.e. as small as possible.
     /// </summary>
     public sealed record Shrink : BoxSizing;
+
     /// <summary>
     /// Fills the available width.
     /// </summary>
@@ -64,7 +89,7 @@ public record BoxConstraints {
     /// <summary>
     /// The minimum width a height is allowed to be, takes precedence over all values.  
     /// </summary>
-    public double? MinimumWidth { get; set; } = null;
+    public double? MinimumWidth { get; set; }
     /// <summary>
     /// The minimum height a widget is allowed to be, takes precedence over all values.  
     /// </summary>
