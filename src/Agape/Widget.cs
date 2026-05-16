@@ -16,12 +16,12 @@ public static class LayoutSolver {
         } else {
             renderObject.Constraints.MaximumHeight ??= height;
         }
-        
+
         // It's important that the min constraints are solved before the max constraints
         // because the min constraints are used in calculating max constraints.
         renderObject.SolveMinConstraints();
         renderObject.SolveMaxConstraints();
-        
+
         renderObject.UpdateSize();
         renderObject.PositionChildren();
     }
@@ -70,14 +70,14 @@ public record struct Padding {
 
 public abstract record BoxSizing {
     private BoxSizing() { }
-    
+
     public sealed record Fixed(double Value) : BoxSizing;
-    
+
     /// <summary>
     /// Fits it children, i.e. as small as possible.
     /// </summary>
     public sealed record Shrink : BoxSizing;
-    
+
     /// <summary>
     /// Fills the available width.
     /// </summary>

@@ -26,7 +26,7 @@ public abstract class RenderObject {
     /// them.
     /// </summary>
     public abstract void SolveMaxConstraints();
-    
+
     public abstract void PositionChildren();
 
     /// <summary>

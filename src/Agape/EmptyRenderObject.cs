@@ -23,9 +23,9 @@ public class EmptyRenderObject : RenderObject {
     public override void SolveMaxConstraints() {
         // No children to solve for    
     }
-    
+
     public override void PositionChildren() { }
-    
+
 
     public override void Draw(SKCanvas canvas) {
         var rect = SKRect.Create(0, 0, (float)Width, (float)Height);

@@ -62,12 +62,12 @@ public class SingleChildRenderObject : RenderObject {
     private void AlignMainAxisStart() {
         var xPos = Position.X;
         xPos += (float)Padding.Left;
-        
+
         Child.Position = Child.Position with {
             X = xPos
         };
     }
-    
+
     private void AlignMainAxisCenter() {
         var centerStart = Position.X + (Width - Child.Width) / 2;
         Child.Position = Child.Position with {
@@ -79,21 +79,21 @@ public class SingleChildRenderObject : RenderObject {
         var xPos = Position.X + Width;
         xPos -= Padding.Left;
         xPos -= Child.Width;
-        
+
         Child.Position = Child.Position with {
             X = (float)xPos
         };
     }
 
-    
+
     private void AlignCrossAxisStart() {
         var yPos = Position.Y + Padding.Top;
-        
+
         Child.Position = Child.Position with {
             Y = (float)yPos
         };
     }
-    
+
     private void AlignCrossAxisCenter() {
         var centerStart = Position.Y + (Height - Child.Height) / 2;
         Child.Position = Child.Position with {
@@ -101,15 +101,15 @@ public class SingleChildRenderObject : RenderObject {
         };
     }
 
-    
+
     private void AlignCrossAxisEnd() {
         var yPos = Position.Y + Height - Padding.Bottom - Child.Height;
-        
+
         Child.Position = Child.Position with {
             Y = (float)yPos
         };
     }
-    
+
     public override void PositionChildren() {
         switch (MainAxisAlignment) {
             case AxisAlignment.Start:

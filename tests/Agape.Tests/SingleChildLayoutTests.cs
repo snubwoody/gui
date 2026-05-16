@@ -8,19 +8,19 @@ public class SingleChildLayoutTests {
         var rect = new EmptyRenderObject();
 
         var widget = new SingleChildRenderObject(rect) {
-            Padding = new Padding(right:20,top:24,bottom:5),
+            Padding = new Padding(right: 20, top: 24, bottom: 5),
             MainAxisAlignment = AxisAlignment.Start,
-            Position = new Vector2(200,0)
+            Position = new Vector2(200, 0)
         };
 
         widget.PositionChildren();
         Assert.Equal(widget.Position.X, widget.Child.Position.X);
-        
+
         widget.Padding = widget.Padding with {
             Left = 20
         };
         widget.PositionChildren();
-        
+
         Assert.Equal(widget.Position.X + 20, widget.Child.Position.X);
     }
 
@@ -31,9 +31,9 @@ public class SingleChildLayoutTests {
         };
 
         var widget = new SingleChildRenderObject(rect) {
-            Padding = new Padding(right:20),
+            Padding = new Padding(right: 20),
             MainAxisAlignment = AxisAlignment.End,
-            Position = new Vector2(200,0),
+            Position = new Vector2(200, 0),
             Width = 200
         };
 
@@ -96,7 +96,7 @@ public class SingleChildLayoutTests {
         Assert.Equal(500, widget.Constraints.MinimumHeight);
     }
 
-    
+
     [Fact]
     public void MinHeightBiggerThanContentHeight() {
         var rect = new EmptyRenderObject {
@@ -150,8 +150,8 @@ public class SingleChildLayoutTests {
         };
 
         var widget = new SingleChildRenderObject(rect);
-        
-        LayoutSolver.SolveLayout(widget,100,200);
+
+        LayoutSolver.SolveLayout(widget, 100, 200);
 
         Assert.Equal(100, widget.Child.Constraints.MaximumWidth);
         Assert.Equal(200, widget.Child.Constraints.MaximumHeight);
@@ -165,25 +165,25 @@ public class SingleChildLayoutTests {
         };
 
         var widget = new SingleChildRenderObject(rect) {
-            Padding = new Padding(10, 15, 20,25)
+            Padding = new Padding(10, 15, 20, 25)
         };
-        
-        LayoutSolver.SolveLayout(widget,100,200);
 
-        Assert.Equal(100-25, widget.Child.Constraints.MaximumWidth);
-        Assert.Equal(200-45, widget.Child.Constraints.MaximumHeight);
+        LayoutSolver.SolveLayout(widget, 100, 200);
+
+        Assert.Equal(100 - 25, widget.Child.Constraints.MaximumWidth);
+        Assert.Equal(200 - 45, widget.Child.Constraints.MaximumHeight);
     }
-    
+
     [Fact]
     public void AlignCrossAxisStart() {
         var rect = new EmptyRenderObject();
 
         var widget = new SingleChildRenderObject(rect) {
-            Position = new Vector2(0,50),
+            Position = new Vector2(0, 50),
         };
-        
+
         widget.PositionChildren();
-        
+
         Assert.Equal(50, widget.Child.Position.Y);
     }
 
@@ -192,12 +192,12 @@ public class SingleChildLayoutTests {
         var rect = new EmptyRenderObject();
 
         var widget = new SingleChildRenderObject(rect) {
-            Position = new Vector2(0,50),
-            Padding = new Padding(20,20,50,20)
+            Position = new Vector2(0, 50),
+            Padding = new Padding(20, 20, 50, 20)
         };
-        
+
         widget.PositionChildren();
-        
+
         Assert.Equal(100, widget.Child.Position.Y);
     }
 
@@ -208,13 +208,13 @@ public class SingleChildLayoutTests {
         };
 
         var widget = new SingleChildRenderObject(rect) {
-            Position = new Vector2(0,50),
-            Padding = new Padding(20,20,50,40),
+            Position = new Vector2(0, 50),
+            Padding = new Padding(20, 20, 50, 40),
             CrossAxisAlignment = AxisAlignment.End
         };
-        
+
         widget.PositionChildren();
-        
+
         Assert.Equal(widget.Position.Y - 20 - 40, widget.Child.Position.Y);
     }
 }
