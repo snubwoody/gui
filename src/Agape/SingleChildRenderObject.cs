@@ -76,14 +76,37 @@ public class SingleChildRenderObject : RenderObject {
     }
 
     private void AlignMainAxisEnd() {
-        // let mut x_pos = self.position.x + self.size.width;
-        // x_pos -= self.padding.right;
         var xPos = Position.X + Width;
         xPos -= Padding.Left;
         xPos -= Child.Width;
         
         Child.Position = Child.Position with {
             X = (float)xPos
+        };
+    }
+
+    
+    private void AlignCrossAxisStart() {
+        var yPos = Position.Y + Padding.Top;
+        
+        Child.Position = Child.Position with {
+            Y = (float)yPos
+        };
+    }
+    
+    private void AlignCrossAxisCenter() {
+        var centerStart = Position.Y + (Height - Child.Height) / 2;
+        Child.Position = Child.Position with {
+            Y = (float)centerStart
+        };
+    }
+
+    
+    private void AlignCrossAxisEnd() {
+        var yPos = Position.Y + Height - Padding.Bottom - Child.Height;
+        
+        Child.Position = Child.Position with {
+            Y = (float)yPos
         };
     }
     
@@ -99,8 +122,19 @@ public class SingleChildRenderObject : RenderObject {
                 AlignMainAxisEnd();
                 break;
         }
+
+        switch (CrossAxisAlignment) {
+            case AxisAlignment.Start:
+                AlignCrossAxisStart();
+                break;
+            case AxisAlignment.Center:
+                AlignCrossAxisCenter();
+                break;
+            case AxisAlignment.End:
+                AlignCrossAxisEnd();
+                break;
+        }
     }
-    
 
     public override void Draw(SKCanvas canvas) {
         var rect = SKRect.Create(0, 0, (float)Width, (float)Height);

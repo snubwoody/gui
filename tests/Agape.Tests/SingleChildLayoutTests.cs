@@ -173,4 +173,48 @@ public class SingleChildLayoutTests {
         Assert.Equal(100-25, widget.Child.Constraints.MaximumWidth);
         Assert.Equal(200-45, widget.Child.Constraints.MaximumHeight);
     }
+    
+    [Fact]
+    public void AlignCrossAxisStart() {
+        var rect = new EmptyRenderObject();
+
+        var widget = new SingleChildRenderObject(rect) {
+            Position = new Vector2(0,50),
+        };
+        
+        widget.PositionChildren();
+        
+        Assert.Equal(50, widget.Child.Position.Y);
+    }
+
+    [Fact]
+    public void AlignCrossAxisStartWithTopPadding() {
+        var rect = new EmptyRenderObject();
+
+        var widget = new SingleChildRenderObject(rect) {
+            Position = new Vector2(0,50),
+            Padding = new Padding(20,20,50,20)
+        };
+        
+        widget.PositionChildren();
+        
+        Assert.Equal(100, widget.Child.Position.Y);
+    }
+
+    [Fact]
+    public void AlignCrossAxisEnd() {
+        var rect = new EmptyRenderObject {
+            Height = 20
+        };
+
+        var widget = new SingleChildRenderObject(rect) {
+            Position = new Vector2(0,50),
+            Padding = new Padding(20,20,50,40),
+            CrossAxisAlignment = AxisAlignment.End
+        };
+        
+        widget.PositionChildren();
+        
+        Assert.Equal(widget.Position.Y - 20 - 40, widget.Child.Position.Y);
+    }
 }
