@@ -1,5 +1,4 @@
-﻿using System.Numerics;
-using SkiaSharp;
+﻿using SkiaSharp;
 
 namespace Agape;
 
@@ -8,13 +7,13 @@ public static class LayoutSolver {
         if (renderObject.IntrinsicWidth is BoxSizing.Fixed fixedWidth) {
             renderObject.Constraints.MaximumWidth = fixedWidth.Value;
         } else {
-            renderObject.Constraints.MaximumWidth ??= width;
+            renderObject.Constraints.MaximumWidth = width;
         }
 
         if (renderObject.IntrinsicHeight is BoxSizing.Fixed fixedHeight) {
             renderObject.Constraints.MaximumHeight = fixedHeight.Value;
         } else {
-            renderObject.Constraints.MaximumHeight ??= height;
+            renderObject.Constraints.MaximumHeight = height;
         }
 
         // It's important that the min constraints are solved before the max constraints
@@ -90,10 +89,12 @@ public record BoxConstraints {
     /// The minimum width a height is allowed to be, takes precedence over all values.  
     /// </summary>
     public double? MinimumWidth { get; set; }
+
     /// <summary>
     /// The minimum height a widget is allowed to be, takes precedence over all values.  
     /// </summary>
     public double? MinimumHeight { get; set; }
+
     public double? MaximumWidth { get; set; }
     public double? MaximumHeight { get; set; }
 
@@ -110,7 +111,7 @@ public record BoxConstraints {
     }
 }
 
-// TODO: add render widget
+
 public abstract class Widget {
     public BoxSizing IntrinsicWidth { get; init; } = new BoxSizing.Shrink();
     public BoxSizing IntrinsicHeight { get; init; } = new BoxSizing.Shrink();
@@ -121,6 +122,8 @@ public abstract class Widget {
 
 
 public class Container : Widget {
+    public AxisAlignment MainAxisAlignment { get; set; }
+    public AxisAlignment CrossAxisAlignment { get; set; }
     public SKColor Color { get; set; }
 
     Widget _child;
@@ -134,7 +137,9 @@ public class Container : Widget {
             Color = Color,
             IntrinsicWidth = IntrinsicWidth,
             IntrinsicHeight = IntrinsicHeight,
-            Constraints = Constraints
+            Constraints = Constraints,
+            MainAxisAlignment = MainAxisAlignment,
+            CrossAxisAlignment = CrossAxisAlignment
         };
     }
 }

@@ -1,4 +1,5 @@
-﻿using SkiaSharp;
+﻿using System.Text.Json;
+using SkiaSharp;
 
 namespace Agape;
 
@@ -13,8 +14,27 @@ public class SingleChildRenderObject : RenderObject {
         Child = child;
     }
 
+    public override void UpdateSize() {
+        Width = IntrinsicWidth switch {
+            BoxSizing.Fixed fixedWidth => fixedWidth.Value,
+            BoxSizing.Fill => Constraints.MaximumWidth ?? 0,
+            BoxSizing.Shrink => Constraints.MinimumHeight ?? 0,
+            _ => throw new Exception("Invalid intrinsic width")
+        };
+
+        Height = IntrinsicHeight switch {
+            BoxSizing.Fixed fixedHeight => fixedHeight.Value,
+            BoxSizing.Fill => Constraints.MaximumHeight ?? 0,
+            BoxSizing.Shrink => Constraints.MinimumHeight ?? 0,
+            _ => throw new Exception("Invalid intrinsic height")
+        };
+
+        Child.UpdateSize();
+    }
+
     public override void SolveMinConstraints() {
         Child.SolveMinConstraints();
+
         // TODO get the max or use null expr
         if (IntrinsicWidth is BoxSizing.Fixed width) {
             Constraints.MinimumWidth = width.Value;
@@ -57,6 +77,7 @@ public class SingleChildRenderObject : RenderObject {
             Child.Constraints.MaximumHeight = fixedHeight.Value;
         }
 
+        Child.SolveMaxConstraints();
     }
 
     private void AlignMainAxisStart() {
@@ -137,7 +158,7 @@ public class SingleChildRenderObject : RenderObject {
     }
 
     public override void Draw(SKCanvas canvas) {
-        var rect = SKRect.Create(0, 0, (float)Width, (float)Height);
+        var rect = SKRect.Create(Position.X, Position.Y, (float)Width, (float)Height);
         var paint = new SKPaint {
             Color = Color,
         };

@@ -32,7 +32,7 @@ public abstract class RenderObject {
     /// <summary>
     /// Sets the widget's size based on the constraints and box sizing.
     /// </summary>
-    public void UpdateSize() {
+    public virtual void UpdateSize() {
         Width = IntrinsicWidth switch {
             BoxSizing.Fixed fixedWidth => fixedWidth.Value,
             BoxSizing.Fill => Constraints.MaximumWidth ?? 0,

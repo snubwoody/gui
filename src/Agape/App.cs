@@ -65,6 +65,7 @@ class App {
 
     private void OnResize(Vector2D<int> size) {
         _surface = CreateSurface(size.X, size.Y);
+        renderObject = widget.CreateRenderObject();
         SolveLayout();
     }
 
@@ -78,6 +79,9 @@ class App {
 
         renderObject.Draw(canvas);
 
+        if (renderObject is SingleChildRenderObject obj) {
+            // Console.WriteLine(obj.Child.Position);
+        }
         _grContext.Flush();
     }
 

@@ -63,11 +63,9 @@ public class TextRenderObject : RenderObject {
     public override void Draw(SKCanvas canvas) {
         var paint = Paint();
         var font = Font();
-        // var position = Position;
-        // var y = Position.Y + Size.Y;
 
         // Draw at the baseline
-        var y = 0 + Height;
-        canvas.DrawText(Value, 0, (float)y, font, paint);
+        var y = Position.Y + Height;
+        canvas.DrawText(Value, Position.X, (float)y, font, paint);
     }
 }
