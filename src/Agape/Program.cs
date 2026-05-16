@@ -12,8 +12,7 @@ static class Program {
 
         var text = new Text("Hello World");
 
-        var root = new Container(text) {
-        };
+        var root = new Container(text);
 
         var app = new App(root);
         app.Run();
