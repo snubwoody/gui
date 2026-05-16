@@ -1,6 +1,30 @@
-﻿namespace Agape.Tests;
+﻿using System.Numerics;
+
+namespace Agape.Tests;
 
 public class SingleChildLayoutTests {
+    [Fact]
+    public void AlignMainAxisStart() {
+        var rect = new EmptyRenderObject();
+
+        var widget = new SingleChildRenderObject(rect) {
+            Constraints = new BoxConstraints(minHeight: 100, minWidth: 200),
+            Padding = new Padding(right:20,top:24,bottom:5),
+            MainAxisAlignment = AxisAlignment.Start,
+            Position = new Vector2(200,0)
+        };
+
+        widget.PositionChildren();
+        Assert.Equal(widget.Position.X, widget.Child.Position.X);
+        
+        widget.Padding = widget.Padding with {
+            Left = 20
+        };
+        widget.PositionChildren();
+        
+        Assert.Equal(widget.Position.X + 20, widget.Child.Position.X);
+    }
+
     [Fact]
     public void MinWidthAndHeight() {
         var rect = new EmptyRenderObject();

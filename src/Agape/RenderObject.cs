@@ -4,7 +4,7 @@ using SkiaSharp;
 namespace Agape;
 
 public abstract class RenderObject {
-    public Vector2 Position { get; protected set; }
+    public Vector2 Position { get; set; }
     public AxisAlignment MainAxisAlignment { get; init; } = AxisAlignment.Start;
     public AxisAlignment CrossAxisAlignment { get; init; } = AxisAlignment.Start;
     public double Width { get; private set; }
@@ -14,7 +14,7 @@ public abstract class RenderObject {
     public BoxSizing IntrinsicHeight { get; init; } = new BoxSizing.Shrink();
     public BoxConstraints Constraints { get; init; } = new();
 
-    public Padding Padding { get; init; } = new();
+    public Padding Padding { get; set; } = new();
 
     /// <summary>
     /// Solves the minimum constraints. The children widgets tell the parent the minimum space they need.

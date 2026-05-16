@@ -30,7 +30,7 @@ public record struct Padding {
     public double Top { get; set; }
     public double Bottom { get; set; }
 
-    public Padding(double left, double right, double top, double bottom) {
+    public Padding(double left = 0, double right = 0, double top = 0, double bottom = 0) {
         Left = left;
         Right = right;
         Top = top;
