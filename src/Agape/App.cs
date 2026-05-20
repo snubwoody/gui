@@ -7,7 +7,7 @@ using SkiaSharp;
 
 namespace Agape;
 
-class App {
+public class App {
     private readonly IWindow _window;
     private static GL _gl;
     private GRContext _grContext;

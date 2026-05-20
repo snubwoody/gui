@@ -1,4 +1,8 @@
 <Solution>
+  <Folder Name="/examples/">
+    <Project Path="examples/Folio/Folio.csproj" />
+  </Folder>
+  <Folder Name="/src/" />
   <Folder Name="/tests/">
     <Project Path="tests/Agape.Tests/Agape.Tests.csproj" />
   </Folder>
