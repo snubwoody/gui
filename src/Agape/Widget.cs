@@ -11,8 +11,6 @@ public abstract class Widget {
     public abstract RenderObject CreateRenderObject();
 }
 
-
-
 public class Container : Widget {
     public AxisAlignment MainAxisAlignment { get; set; }
     public AxisAlignment CrossAxisAlignment { get; set; }
@@ -56,4 +54,3 @@ public abstract class CompositeWidget : Widget {
         return new SingleChildRenderObject(Build().CreateRenderObject());
     }
 }
-
