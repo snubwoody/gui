@@ -14,7 +14,7 @@ public abstract class Widget {
 public class Container : Widget {
     public AxisAlignment MainAxisAlignment { get; set; }
     public AxisAlignment CrossAxisAlignment { get; set; }
-    public SKColor Color { get; set; }
+    public Color Color { get; set; }
 
     Widget _child;
 
@@ -35,7 +35,7 @@ public class Container : Widget {
 }
 
 public class Rect : Widget {
-    public SKColor Color { get; set; }
+    public Color Color { get; set; }
 
     public override RenderObject CreateRenderObject() {
         return new EmptyRenderObject {

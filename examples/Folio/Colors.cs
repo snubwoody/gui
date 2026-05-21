@@ -70,16 +70,16 @@ public abstract class Colors {
     public static readonly Color Red800 = Color.FromHex("#670406");
     public static readonly Color Red900 = Color.FromHex("#400202");
     public static readonly Color Red950 = Color.FromHex("#2C0101");
-    
+
     // Border
     public static readonly Color BorderNeutral10 = Colors.Neutral50;
     public static readonly Color BorderNeutralFocus = Colors.Neutral500;
-    
+
     // Surface
     public static readonly Color SurfacePrimary = Colors.Purple500;
     public static readonly Color SurfacePrimaryHover = Colors.Purple600;
     public static readonly Color SurfacePrimaryActive = Colors.Purple700;
-    
+
     // Text
     public static readonly Color TextHeading = Neutral950;
     public static readonly Color TextBody = Neutral900;

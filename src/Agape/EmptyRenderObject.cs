@@ -6,7 +6,7 @@ namespace Agape;
 /// A render object with no children.
 /// </summary>
 public class EmptyRenderObject : RenderObject {
-    public SKColor Color { get; set; }
+    public Color Color { get; set; }
 
     public override void SolveMinConstraints() {
         // The minimum width and height take precedence if set
@@ -30,7 +30,7 @@ public class EmptyRenderObject : RenderObject {
     public override void Draw(SKCanvas canvas) {
         var rect = SKRect.Create(0, 0, (float)Width, (float)Height);
         var paint = new SKPaint {
-            Color = Color,
+            Color = Color.ToSKColor(),
         };
         canvas.DrawRect(rect, paint);
     }

@@ -8,7 +8,7 @@ namespace Agape;
 /// </summary>
 public class SingleChildRenderObject : RenderObject {
     public RenderObject Child { get; }
-    public SKColor Color { get; set; }
+    public Color Color { get; set; }
 
     public SingleChildRenderObject(RenderObject child) {
         Child = child;
@@ -160,7 +160,7 @@ public class SingleChildRenderObject : RenderObject {
     public override void Draw(SKCanvas canvas) {
         var rect = SKRect.Create(Position.X, Position.Y, (float)Width, (float)Height);
         var paint = new SKPaint {
-            Color = Color,
+            Color = Color.ToSKColor(),
         };
         canvas.DrawRect(rect, paint);
         Child.Draw(canvas);
