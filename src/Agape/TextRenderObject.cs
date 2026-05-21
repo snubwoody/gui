@@ -4,6 +4,7 @@ using SkiaSharp;
 namespace Agape;
 
 public class TextRenderObject : RenderObject {
+    public Color Color { get; set; } = new(0, 0, 0);
     public string Value { get; init; }
     /// <summary>
     /// The font size of the text.
@@ -33,7 +34,7 @@ public class TextRenderObject : RenderObject {
     /// </summary>
     private SKPaint Paint() {
         return new SKPaint {
-            Color = SKColors.Black,
+            Color = Color.ToSKColor(),
             IsAntialias = true
         };
     }
